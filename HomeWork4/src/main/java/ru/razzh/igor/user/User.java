@@ -2,15 +2,12 @@ package ru.razzh.igor.user;
 
 
 public class User {
-    Long id;
-    String username;
+    private Long id;
+    private String username;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                '}';
+    public User(long id, String username) {
+        this.id = id;
+        this.username = username;
     }
 
     public Long getId() {
@@ -21,8 +18,11 @@ public class User {
         return username;
     }
 
-    public User(long id, String username) {
-        this.id = id;
-        this.username = username;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                '}';
     }
 }
