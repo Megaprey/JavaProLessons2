@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: payment
+
+server:
+  servlet:
+    context-path: "/"
+  port: 8183
+
+integrations:
+  executors:
+    products-executor-client:
+      url: "http://localhost:8182"
+      connect-timeout: 1s
+      read-timeout: 30s

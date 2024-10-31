@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class ProductDao {
@@ -47,10 +48,15 @@ public class ProductDao {
             List<Map<String,Object>> list = jdbcTemplate.queryForList(sql, userId.toString());
             List<Product> plist = new ArrayList<>();
             list.forEach(m -> {
-                Product p = new Product(Long.valueOf((int)m.get("id")), (String) m.get("accountNumber"),
-                        (BigDecimal) m.get("balance"), (String) m.get("product_type"), Long.valueOf((int)m.get("user_id")));
+                Product p = new Product((long)m.get("id"), (String) m.get("accountNumber"),
+                        (BigDecimal) m.get("balance"), (String) m.get("product_type"), (long)m.get("user_id"));
                 plist.add(p);
             });
             return plist;
-        }
     }
+
+    public void updateProductSumById(long id, BigDecimal balance) {
+        String sql = "UPDATE products SET balance = ? WHERE id = ?";
+        jdbcTemplate.update(sql, balance, id);
+    }
+}
