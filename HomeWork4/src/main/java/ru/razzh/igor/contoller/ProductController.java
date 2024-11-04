@@ -1,18 +1,17 @@
 package ru.razzh.igor.contoller;
 
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.razzh.igor.dto.TaskRequest;
 import ru.razzh.igor.dto.error.ErrorResponse;
-import ru.razzh.igor.user.Product;
-import ru.razzh.igor.user.ProductService;
+import ru.razzh.igor.entity.Product;
+import ru.razzh.igor.service.ProductService;
+import ru.razzh.igor.dto.ProductDto;
 
 import java.math.BigDecimal;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("v1/product")
@@ -22,28 +21,14 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/create")
-    public String createProductTable() {
-        productService.createpRroductTable();
-        return "create Product table";
-    }
-
-    @GetMapping("/add")
-    public String addProduct(@RequestParam String accountNumber,
-                             @RequestParam BigDecimal balance,
-                             @RequestParam  String productType,
-                             @RequestParam long userId) {
-        productService.insertProduct(accountNumber, balance, productType, userId);
-        return "add in table";
-    }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable long id) {
+    public ProductDto getById(@PathVariable long id) {
         return productService.getById(id);
     }
 
     @GetMapping("/all")
-    public List<Product> getAllProductByUserId(@RequestParam long userId) {
+    public List<ProductDto> getAllProductByUserId(@RequestParam long userId) {
         return productService.getAllProductByUserId(userId);
     }
 
@@ -53,7 +38,7 @@ public class ProductController {
     }
 
     @GetMapping("/{userId}/product")
-    public Product getProductByUserIdAndProductType(@PathVariable long userId, @RequestParam String productType) {
+    public ProductDto getProductByUserIdAndProductType(@PathVariable long userId, @RequestParam String productType) {
         return productService.getProductByUserIdAndProductType(userId, productType);
     }
 
