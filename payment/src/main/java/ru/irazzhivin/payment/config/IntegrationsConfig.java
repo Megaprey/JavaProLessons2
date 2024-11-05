@@ -8,7 +8,7 @@ import ru.irazzhivin.payment.handler.RestTemplateResponseErrorHandler;
 
 @Configuration
 public class IntegrationsConfig {
-    RestTemplateResponseErrorHandler restTemplateResponseErrorHandler;
+    private final RestTemplateResponseErrorHandler restTemplateResponseErrorHandler;
 
     public IntegrationsConfig(RestTemplateResponseErrorHandler restTemplateResponseErrorHandler) {
         this.restTemplateResponseErrorHandler = restTemplateResponseErrorHandler;
@@ -21,7 +21,7 @@ public class IntegrationsConfig {
                 .rootUri(productsExecutorClient.getUrl())
                 .setConnectTimeout(productsExecutorClient.getConnectTimeout())
                 .setReadTimeout(productsExecutorClient.getReadTimeout())
-//                .errorHandler(restTemplateResponseErrorHandler)
+                .errorHandler(restTemplateResponseErrorHandler)
                 .build();
     }
 }
