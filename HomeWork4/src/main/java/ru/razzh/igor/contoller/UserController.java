@@ -3,14 +3,15 @@ package ru.razzh.igor.contoller;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import ru.razzh.igor.user.UserService;
+import org.springframework.web.bind.annotation.*;
+import ru.razzh.igor.dto.ProductDto;
+import ru.razzh.igor.dto.UserDto;
+import ru.razzh.igor.service.UserService;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("v1/user")
 public class UserController {
     private final UserService userService;
 
@@ -18,15 +19,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/createTable")
-    public String createUsertable() {
-        userService.createUsersTable();
-        return "create User table";
+    @GetMapping("/{id}")
+    public UserDto getById(@PathVariable long id) {
+        return userService.getById(id);
     }
 
-    @GetMapping("/add")
-    public HttpEntity<String> insertUser(@RequestParam String username) {
-        userService.insertUser(username);
-        return ResponseEntity.ok("user add to table");
+    @GetMapping("/all")
+    public List<UserDto> getAllUsers() {
+        return userService.getAll();
     }
+
 }
