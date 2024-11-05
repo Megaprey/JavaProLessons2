@@ -56,4 +56,15 @@ public class Product {
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", balance=" + balance +
+                ", productType='" + productType + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
 }
