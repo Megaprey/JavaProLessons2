@@ -18,10 +18,9 @@ public class Limit {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "limit")
+    @Column(name = "limmit")
     private BigDecimal limit;
 
-    @OneToOne
     @Column(name = "user_id")
     private long userId;
 }
