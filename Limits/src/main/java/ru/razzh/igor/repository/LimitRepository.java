@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface LimitRepository extends JpaRepository<Limit, Long> {
     Optional<Limit> findByUserId(long userId);
     @Modifying
-    @Query(value = "insert into limits (id,limmit,user_id) values (:limit,:userId)", nativeQuery = true)
+    @Query(value = "insert into limits (id,limmit,user_id) values (:userId,:limit,:userId)", nativeQuery = true)
     void saveLimit(BigDecimal limit, long userId);
 
     @Modifying
@@ -25,4 +25,8 @@ public interface LimitRepository extends JpaRepository<Limit, Long> {
     @Modifying
     @Query(value = "update limits set limmit = :limit" , nativeQuery = true)
     void revertToDefaultLimit(BigDecimal limit);
+
+    @Modifying
+    @Query(value = "update limits set limmit = limmit + :sum where user_id = :userId", nativeQuery = true)
+    void revertLimit(BigDecimal sum, long userId);
 }

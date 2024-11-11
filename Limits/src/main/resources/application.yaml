@@ -5,11 +5,11 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog.yaml
   datasource:
-    url: jdbc:h2:mem:test
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5431/postgres
+    driver-class-name: org.postgresql.Driver
     hikari:
-      username: user
-      password: password
+      username: postgres
+      password: postgres
   h2:
     console:
       enabled: true
@@ -20,7 +20,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
 server:
-  servlet:
-    context-path: "/"
   port: 8182
 

@@ -29,7 +29,7 @@ public class LimitController {
     }
     @PutMapping("/revert")
     public UpdateRs revertLimit(@RequestBody UpdateLimitRq body) {
-        return limitService.updateLimit(body.sum(), body.userId());
+        return limitService.revertLimit(body.sum(), body.userId());
     }
 
     @PutMapping("/daylimit")

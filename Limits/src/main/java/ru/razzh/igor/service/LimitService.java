@@ -3,6 +3,7 @@ package ru.razzh.igor.service;
 import jakarta.persistence.EntityExistsException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.razzh.igor.dto.LimitDto;
 import ru.razzh.igor.dto.UpdateRs;
@@ -12,27 +13,28 @@ import ru.razzh.igor.repository.LimitRepository;
 
 import java.math.BigDecimal;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class LimitService {
     private final static BigDecimal LIMIT = BigDecimal.valueOf(10000);
-    LimitRepository limitRepository;
+    private final LimitRepository limitRepository;
 
     @Transactional
     public LimitDto getLimit(long userId) {
         Limit limit;
-        try {
-           limit = limitRepository.findByUserId(userId).orElseThrow(EntityExistsException::new);
-        } catch (EntityExistsException e) {
+
+       limit = limitRepository.findByUserId(userId).orElseGet(() ->
+        {
             Limit limitAdd = new Limit();
             limitAdd.setLimit(LIMIT);
             limitAdd.setUserId(userId);
-            limitRepository.saveLimit(limitAdd.getLimit(), limitAdd.getId());
-            limit = limitAdd;
-        }
+            limitRepository.saveLimit(limitAdd.getLimit(), limitAdd.getUserId());
+            return limitAdd;
+        });
 
         return limitMapToDto(limit);
     }
+
     @Transactional
     public LimitDto lessLimit(BigDecimal sum, long userId) {
         BigDecimal limit = getLimit(userId).limit();
@@ -45,8 +47,8 @@ public class LimitService {
     }
 
     @Transactional
-    public UpdateRs updateLimit(BigDecimal limit, long userId) {
-        limitRepository.updateLimit(limit, userId);
+    public UpdateRs revertLimit(BigDecimal limit, long userId) {
+        limitRepository.revertLimit(limit, userId);
         return new UpdateRs("Возврат лимита после отмененной оплаты прошёл успешно");
     }
 
